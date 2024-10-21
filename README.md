@@ -4,7 +4,9 @@ A browser extension to block CSDN links from search results on **Google**, **Bin
 
 ## Usage
 
-1. Open the [Chrome](chrome://extensions/) or [Edge](edge://extensions/) extension page.
+1. Open the extension page of your browser:
+    - Chrome: `chrome://extensions/`
+    - Edge: `edge://extensions/`
 2. Open the "Developer Mode".
 3. Click the "Load unpacked" button.
 4. Select the `csdn-blocker/src` folder.
