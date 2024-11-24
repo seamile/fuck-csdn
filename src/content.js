@@ -2,7 +2,7 @@
 function removeCSDNResults() {
   // 搜索引擎选择器设置
   const se_selectors = {
-    "google.com": ".MjjYud",
+    "google.com": ".A6K0A",
     "bing.com": ".b_algo, .b_ans, .b_top, .wptSld",
     "baidu.com": ".result",
   };
