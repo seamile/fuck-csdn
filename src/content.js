@@ -2,7 +2,7 @@
 function removeCSDNResults() {
   // 搜索引擎选择器设置
   const se_selectors = {
-    "google.com": ".A6K0A",
+    "google.com": ".MjjYud",
     "bing.com": ".b_algo, .b_ans, .b_top, .wptSld",
     "baidu.com": ".result",
   };
@@ -26,6 +26,12 @@ function removeCSDNResults() {
         if (muAttribute && muAttribute.includes("csdn.net")) {
           result.remove();
         }
+      } else if (hostname.includes("google.com") && result.querySelector("style")) {
+        // 清空除了 <style> 之外的所有内容
+        const styles = result.querySelectorAll("style");
+        const parent = result.parentNode;
+        styles.forEach(style => parent.appendChild(style)); // 保留 <style> 元素
+        result.innerHTML = ''; // 清空内容
       } else {
         const links = result.querySelectorAll("a");
         for (const link of links) {
