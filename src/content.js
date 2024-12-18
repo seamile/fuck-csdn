@@ -2,9 +2,9 @@
 function removeCSDNResults() {
   // 搜索引擎选择器设置
   const se_selectors = {
-    "google.com": ".MjjYud",
-    "bing.com": ".b_algo, .b_ans, .b_top, .wptSld",
-    "baidu.com": ".result",
+    'google.com': '.MjjYud',
+    'bing.com': '.b_algo, .b_ans, .b_top, .wptSld',
+    'baidu.com': '.result',
   };
 
   const hostname = window.location.hostname;
@@ -21,22 +21,24 @@ function removeCSDNResults() {
   if (se_selector) {
     const results = document.querySelectorAll(se_selector);
     results.forEach((result) => {
-      if (hostname.includes("baidu.com")) {
-        const muAttribute = result.getAttribute("mu");
-        if (muAttribute && muAttribute.includes("csdn.net")) {
+      if (hostname.includes('baidu.com')) {
+        const muAttribute = result.getAttribute('mu');
+        if (muAttribute && muAttribute.includes('csdn.net')) {
           result.remove();
         }
-      } else if (hostname.includes("google.com") && result.querySelector("style")) {
-        // 清空除了 <style> 之外的所有内容
-        const styles = result.querySelectorAll("style");
-        const parent = result.parentNode;
-        styles.forEach(style => parent.appendChild(style)); // 保留 <style> 元素
-        result.innerHTML = ''; // 清空内容
       } else {
-        const links = result.querySelectorAll("a");
+        const links = result.querySelectorAll('a');
         for (const link of links) {
-          if (link.href.includes("csdn.net")) {
-            result.remove(); // 删除包含 csdn 的结果
+          if (link.href.includes('csdn.net')) {
+            if (hostname.includes('google.com') && result.querySelector('style')) {
+              // 清空除了 <style> 之外的所有内容
+              const styles = result.querySelectorAll('style');
+              const parent = result.parentNode;
+              styles.forEach((style) => parent.appendChild(style)); // 保留 <style> 元素
+              result.innerHTML = ''; // 清空内容
+            } else {
+              result.remove(); // 删除包含 csdn 的结果
+            }
           }
         }
       }
@@ -50,7 +52,7 @@ removeCSDNResults();
 // 设置 MutationObserver 以处理动态加载的内容
 const observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
-    if (mutation.type === "childList") {
+    if (mutation.type === 'childList') {
       removeCSDNResults();
     }
   }
