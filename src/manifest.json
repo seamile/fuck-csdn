@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "CSDN Blocker",
   "version": "1.0",
   "description": "Filters out CSDN links from search results on Google, Bing, and Baidu.",
@@ -9,7 +9,7 @@
     "32": "icons/icon32.png",
     "16": "icons/icon16.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "128": "icons/icon128.png",
       "48": "icons/icon48.png",
@@ -18,11 +18,24 @@
     },
     "default_title": "CSDN Blocker"
   },
-  "permissions": ["activeTab", "*://*.google.com/*", "*://*.bing.com/*", "*://*.baidu.com/*"],
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+      "*://*.google.com/*",
+      "*://*.bing.com/*",
+      "*://*.baidu.com/*"
+  ],
   "content_scripts": [
     {
-      "matches": ["*://*.google.com/search*", "*://*.bing.com/search*", "*://*.baidu.com/s*"],
-      "js": ["content.js"]
+      "matches": [
+        "*://*.google.com/search*",
+        "*://*.bing.com/search*",
+        "*://*.baidu.com/s*"
+      ],
+      "js": [
+        "content.js"
+      ]
     }
   ]
 }
