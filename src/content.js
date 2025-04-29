@@ -1,48 +1,64 @@
 // content.js
 function removeCSDNResults() {
-  // 搜索引擎选择器设置
-  const se_selectors = {
-    'google.com': '.MjjYud',
-    'bing.com': '.b_algo, .b_ans, .b_top, .wptSld',
-    'baidu.com': '.result',
-  };
-
   const hostname = window.location.hostname;
-  let se_selector;
-  // 根据域名选择相应的选择器
-  for (const [domain, sel] of Object.entries(se_selectors)) {
-    if (hostname.includes(domain)) {
-      se_selector = sel;
-      break;
-    }
-  }
-
-  // 根据选择器查找结果
-  if (se_selector) {
-    const results = document.querySelectorAll(se_selector);
-    results.forEach((result) => {
-      if (hostname.includes('baidu.com')) {
-        const muAttribute = result.getAttribute('mu');
-        if (muAttribute && muAttribute.includes('csdn.net')) {
-          result.remove();
+  if (hostname.includes('google.com')) {
+    const results = document.querySelectorAll('div[data-lpage]');
+    if (results.length > 0) {
+      // 图片搜索结果
+      results.forEach((res) => {
+        if (res.getAttribute('data-lpage').includes('csdn.net')) {
+          res.remove();
         }
-      } else {
-        const links = result.querySelectorAll('a');
-        for (const link of links) {
+      });
+    } else {
+      // 普通搜索结果
+      document.querySelectorAll('.MjjYud').forEach((res) => {
+        for (const link of res.querySelectorAll('a')) {
           if (link.href.includes('csdn.net')) {
-            if (hostname.includes('google.com') && result.querySelector('style')) {
-              // 清空除了 <style> 之外的所有内容
-              const styles = result.querySelectorAll('style');
-              const parent = result.parentNode;
-              styles.forEach((style) => parent.appendChild(style)); // 保留 <style> 元素
-              result.innerHTML = ''; // 清空内容
+            if (res.querySelector('style')) {
+              const urlParams = new URLSearchParams(link.href.split('?')[1]);
+              const udmParam = urlParams.get('udm');
+              if (udmParam === '1' || udmParam === null) {
+                const styles = res.querySelectorAll('style');
+                const parent = res.parentNode;
+                styles.forEach((style) => parent.appendChild(style)); // 保留 <style> 元素
+                res.innerHTML = ''; // 清空内容
+              }
             } else {
-              result.remove(); // 删除包含 csdn 的结果
+              res.remove(); // 删除包含 csdn 的结果
             }
           }
         }
+      });
+    }
+  } else if (hostname.includes('baidu.com')) {
+    document.querySelectorAll('div[mu]').forEach((res) => {
+      const muAttribute = res.getAttribute('mu');
+      if (muAttribute && muAttribute.includes('csdn.net')) {
+        res.remove();
       }
     });
+  } else if (hostname.includes('bing.com')) {
+    let removed = false;
+    document.querySelectorAll('.b_algo, .b_wpt_bl, div[class="slide"]').forEach((res) => {
+      for (const link of res.querySelectorAll('a')) {
+        if (link.href.includes('csdn.net')) {
+          Array.from(res.children).forEach((child) => {
+            if (child.tagName !== 'style') {
+              child.remove();
+            }
+          });
+          if (!res.hasChildNodes()) res.remove();
+          removed = true;
+        }
+      }
+    });
+    if (removed) {
+      // 遍历所有 .slide 元素，如果不包含子元素则将其删除
+      document.querySelectorAll('.slide').forEach((slide) => {
+        if (!slide.hasChildNodes()) slide.remove();
+      });
+    }
   }
 }
 
