@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "CSDN Blocker",
-  "version": "1.0",
-  "description": "Filters out CSDN links from search results on Google, Bing, and Baidu.",
+  "name": "搜索结果拦截器",
+  "version": "1.1",
+  "description": "从搜索结果中移除指定域名的链接，支持 Google、Bing、Baidu 等搜索引擎。",
   "icons": {
     "128": "icons/icon128.png",
     "48": "icons/icon48.png",
@@ -16,12 +16,20 @@
       "32": "icons/icon32.png",
       "16": "icons/icon16.png"
     },
-    "default_title": "CSDN Blocker"
+    "default_title": "搜索结果拦截器"
   },
-  "permissions": ["activeTab", "*://*.google.com/*", "*://*.bing.com/*", "*://*.baidu.com/*"],
+  "permissions": ["activeTab", "storage", "*://*.google.com/*", "*://*.bing.com/*", "*://*.baidu.com/*"],
+  "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": ["*://*.google.com/search*", "*://*.bing.com/search*", "*://*.baidu.com/s*"],
+      "matches": [
+        "*://*.google.com/search*",
+        "*://*.bing.com/search*",
+        "*://*.baidu.com/s*",
+        "*://*.duckduckgo.com/*",
+        "*://*.sogou.com/*",
+        "*://*.so.com/*"
+      ],
       "js": ["content.js"]
     }
   ]
