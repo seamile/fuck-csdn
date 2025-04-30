@@ -1,24 +1,33 @@
 {
-  "manifest_version": 2,
-  "name": "搜索结果拦截器",
-  "version": "1.1",
-  "description": "从搜索结果中移除指定域名的链接，支持 Google、Bing、Baidu 等搜索引擎。",
+  "manifest_version": 3,
+  "name": "Search Blocker",
+  "version": "1.2",
+  "description": "从搜索结果中移除指定域名的链接，支持 Google、Bing、Baidu、DuckDuckGo、搜狗、360 搜索等搜索引擎。",
   "icons": {
     "128": "icons/icon128.png",
     "48": "icons/icon48.png",
     "32": "icons/icon32.png",
     "16": "icons/icon16.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "128": "icons/icon128.png",
       "48": "icons/icon48.png",
       "32": "icons/icon32.png",
       "16": "icons/icon16.png"
     },
-    "default_title": "搜索结果拦截器"
+    "default_title": "搜索结果拦截器",
+    "default_popup": "options.html"
   },
-  "permissions": ["activeTab", "storage", "*://*.google.com/*", "*://*.bing.com/*", "*://*.baidu.com/*"],
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "*://*.google.com/*",
+    "*://*.bing.com/*",
+    "*://*.baidu.com/*",
+    "*://*.duckduckgo.com/*",
+    "*://*.sogou.com/*",
+    "*://*.so.com/*"
+  ],
   "options_page": "options.html",
   "content_scripts": [
     {
@@ -27,7 +36,7 @@
         "*://*.bing.com/search*",
         "*://*.baidu.com/s*",
         "*://*.duckduckgo.com/*",
-        "*://*.sogou.com/*",
+        "*://*.sogou.com/web/*",
         "*://*.so.com/*"
       ],
       "js": ["content.js"]

@@ -1,5 +1,5 @@
 // 默认要拦截的域名
-const DEFAULT_BLOCKED_DOMAINS = ['csdn.net'];
+const DEFAULT_BLOCKED_DOMAINS = [];
 
 // 保存设置
 function saveOptions() {

@@ -8,6 +8,7 @@ body {
 
 .container {
   max-width: 768px;
+  min-width: 320px;
   margin: 0 auto;
   padding: 30px;
   background-color: #fff;
@@ -25,7 +26,7 @@ header {
 
 h1 {
   margin: 0;
-  font-size: 2.5em;
+  font-size: 2.4em;
 }
 
 .repo-link {
